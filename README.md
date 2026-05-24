@@ -3,74 +3,8 @@
 # Bài tập đăng bài tự động wp-n8n tele
 # 1. Cấu hình file docker-compose.yml ( bổ sung n8n) 
 
-```
-version: '3.8'
+<img width="1115" height="767" alt="image" src="https://github.com/user-attachments/assets/b31b3366-851a-4106-8260-33aadeb4305d" />
 
-services:
-  mariadb:
-    image: mariadb:latest
-    container_name: mariadb_db
-    environment:
-      TZ: "Asia/Ho_Chi_Minh"
-      MARIADB_ROOT_PASSWORD: "root_password_cua_ban"
-      MARIADB_DATABASE: "wordpress_db"
-      MARIADB_USER: "wp_user"
-      MARIADB_PASSWORD: "wp_password_cua_ban"
-    volumes:
-      - db_data:/var/lib/mysql
-    restart: always
-
-  phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: phpmyadmin_web
-    environment:
-      PMA_HOST: mariadb
-      PMA_ARBITRARY: 1
-    ports:
-      - "8080:80"
-    restart: always
-    depends_on:
-      - mariadb
-
-  wordpress:
-    image: wordpress:latest
-    container_name: wordpress_web
-    environment:
-      WORDPRESS_DB_HOST: mariadb
-      WORDPRESS_DB_NAME: wordpress_db
-      WORDPRESS_DB_USER: wp_user
-      WORDPRESS_DB_PASSWORD: wp_password_cua_ban
-    ports:
-      - "8000:80"
-    volumes:
-      - wp_data:/var/www/html
-    restart: always
-    depends_on:
-      - mariadb
-
-  n8n:
-    image: n8nio/n8n:latest
-    container_name: n8n_automation
-    environment:
-      - TZ=Asia/Ho_Chi_Minh
-      - WEBHOOK_URL=https://sub-domain3.cua-ban.com/ # THAY BẰNG SUB-DOMAIN 3 CỦA BẠN
-    ports:
-      - "5678:5678"
-    volumes:
-      - n8n_data:/home/node/.n8n
-    restart: always
-
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    container_name: cloudflare_tunnel
-    restart: always
-    command: tunnel run --token <TOKEN_TUNNEL_CỦA_BẠN>
-
-volumes:
-  db_data:
-  wp_data:
-  n8n_data:
-  ```
 # 2. Cấu hình cloudfare tunnel 
 
 <img width="1485" height="820" alt="image" src="https://github.com/user-attachments/assets/b1a69e7b-6664-4c2d-9a5d-879df1230bd8" />
